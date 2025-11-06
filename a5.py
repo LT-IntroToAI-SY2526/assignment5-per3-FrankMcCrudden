@@ -106,8 +106,19 @@ class Board:
         Returns:
             a tuple of row, column index identifying the most constrained cell
         """
-        pass
+        min_length = 9
+        min_row = 0
+        min_col = 0
 
+        for row in range(self.size):
+            for col in range(self.size):
+                cell = self.rows[row][col]
+                if isinstance(cell, list):
+                    if len(cell) < min_length:
+                        min_length = len(cell)
+                        min_row = row
+                        min_col = col
+        return (min_row, min_col)
     def failure_test(self) -> bool:
         """Check if we've failed to correctly fill out the puzzle. If we find a cell
         that contains an [], then we have no more possibilities for the cell but haven't
@@ -116,7 +127,12 @@ class Board:
         Returns:
             True if we have failed to fill out the puzzle, False otherwise
         """
-        pass
+        for row in self.rows:
+            for col in row:
+                if col == []:
+                    return True
+        return False
+
 
     def goal_test(self) -> bool:
         """Check if we've completed the puzzle (if we've placed all the numbers).
@@ -125,7 +141,7 @@ class Board:
         Returns:
             True if we've placed all numbers, False otherwise
         """
-        pass
+        return self.num_nums_palaced == self.size * self.size
 
     def update(self, row: int, column: int, assignment: int) -> None:
         """Assigns the given value to the cell given by passed in row and column
@@ -139,7 +155,8 @@ class Board:
             column - index of the column to assign
             assignment - value to place at given row, column coordinate
         """
-        pass
+        for row in self.rows:
+            for col in row:
 
 
 def DFS(state: Board) -> Board:
